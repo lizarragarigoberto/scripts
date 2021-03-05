@@ -219,3 +219,4 @@
   
   
   grep -Ev '(#.*$)|(^$)' /etc/zabbix/zabbix_server.conf
+  systemctl restart zabbix-server zabbix-agent httpd rh-php72-php-fpm
