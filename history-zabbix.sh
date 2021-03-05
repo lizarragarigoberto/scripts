@@ -216,3 +216,6 @@
   216  free -h
   217  cat /etc/zabbix/zabbix_server.conf
   218  history
+  
+  
+  grep -Ev '(#.*$)|(^$)' /etc/zabbix/zabbix_server.conf
