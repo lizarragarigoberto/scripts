@@ -1,0 +1,15 @@
+## RESTORE REDIS
+#download file
+wget https://poc-awsinsagnt.s3.amazonaws.com/dump.rdb
+#stop redis
+sudo systemctl stop redis
+#change user backup
+sudo chown redis:redis dump.rdb
+#change permissions
+sudo chmod 644 dump.rdb
+#copy snapshot to redis directory
+sudo cp dump.rdb /var/lib/redis/
+#check file is on directory
+sudo ls -l /var/lib/redis/
+#start service
+sudo systemctl start redis
