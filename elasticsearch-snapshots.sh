@@ -7,8 +7,8 @@ echo "install repository-s3 plugin"
 sudo ./elasticsearch-plugin install repository-s3
 
 echo "configure credentials"
-echo -n 'AKIASR4FY6VNRBLA5W4R' | ./elasticsearch-keystore add --stdin s3.client.default.access_key
-echo -n '2GYHUNy1HA1jmj0hwo0t1SNNA34RZq00XDobqEZz' | ./elasticsearch-keystore add --stdin s3.client.default.secret_key
+echo -n 'AKIA' | ./elasticsearch-keystore add --stdin s3.client.default.access_key
+echo -n '2000000000000000000000z' | ./elasticsearch-keystore add --stdin s3.client.default.secret_key
 
 echo "change permissions"
 sudo chown booxware:booxware /opt/elasticsearch/config/elasticsearch.keystore
