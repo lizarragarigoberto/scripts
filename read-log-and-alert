@@ -1,0 +1,38 @@
+#####  THIS SCRIPT READS  A LOG FILE FROM 10 MIN AGO AND USE A REGEX TO FIND THE KEYWORD
+import re
+import requests
+from datetime import datetime, timedelta
+from time import gmtime, strftime
+
+log_file_path = r"testlog.log"
+regex = '(Invalid password)+'
+counter=0
+match_list = []
+webhook="https://hooks.slack.com/services/aaaaaa/aaaaaaaa/aaaaaaaaa"
+
+
+with open(log_file_path, "r") as file:
+
+    for line in file:
+        for match in re.finditer(regex, line, re.S):
+            match_text = match.group()
+            match_list.append(match_text)
+            time=line.split()
+            time2=str(time[0] +" "+ time[1])
+            time2=datetime.strptime(time2, '%Y/%m/%d %H:%M:%S')
+            now_str=datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+            print (now_str)
+            now_dt=datetime.strptime(now_str,"%Y/%m/%d %H:%M:%S")
+            ten_min_ago_str=(datetime.now() - timedelta(minutes=10)).strftime("%Y/%m/%d %H:%M:%S")
+            ten_min_ago_dt=datetime.strptime(ten_min_ago_str,"%Y/%m/%d %H:%M:%S")
+            if time2 >= ten_min_ago_dt and  time2 <= now_dt: 
+                counter += 1
+    print ("Wazuh Errors ",counter," in last 10 min")
+    message = ("Wazuh Error "+ str(counter) + " times in last 10 min")
+    data = '{"text": "%s"}' % message 
+    r = requests.post(url = webhook, data = data)
+    print(r)
+
+
+
+#curl -X POST -H 'Content-type: application/json' --data '{"text":"hello, world!"}' https://hooks.slack.com/services/
