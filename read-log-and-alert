@@ -1,14 +1,21 @@
-#####  THIS SCRIPT READS  A LOG FILE FROM 10 MIN AGO AND USE A REGEX TO FIND THE KEYWORD
 import re
 import requests
 from datetime import datetime, timedelta
 from time import gmtime, strftime
+import socket
 
 log_file_path = r"testlog.log"
 regex = '(Invalid password)+'
+#regex = '(Starting evaluation of policy)+'
 counter=0
 match_list = []
-webhook="https://hooks.slack.com/services/aaaaaa/aaaaaaaa/aaaaaaaaa"
+webhook="https://hooks.slack.com/services/aaaa/aaaaa/aaaaaaaaaaaaa"
+
+hostname = socket.gethostname()
+local_ip = socket.gethostbyname(hostname)
+print (hostname)
+print (local_ip)
+
 
 
 with open(log_file_path, "r") as file:
@@ -28,11 +35,12 @@ with open(log_file_path, "r") as file:
             if time2 >= ten_min_ago_dt and  time2 <= now_dt: 
                 counter += 1
     print ("Wazuh Errors ",counter," in last 10 min")
-    message = ("Wazuh Error "+ str(counter) + " times in last 10 min")
+    message = ("Wazuh Errors "+ str(counter) + " in last 10 min" + "|"+ str(hostname) +"|"+ str(local_ip))
     data = '{"text": "%s"}' % message 
     r = requests.post(url = webhook, data = data)
     print(r)
 
 
 
-#curl -X POST -H 'Content-type: application/json' --data '{"text":"hello, world!"}' https://hooks.slack.com/services/
+
+#curl -X POST -H 'Content-type: application/json' --data '{"text":"hello, world!"}' https://hooks.slack.com/services/aaaa/aaaa/aaaaaaaa
